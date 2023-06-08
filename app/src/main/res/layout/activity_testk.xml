@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context=".testk"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_centerVertical="true">
+
+    <TextView
+        android:id="@+id/tak"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <RadioGroup
+        android:id="@+id/radioGroupk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rk1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text=" لا" />
+
+        <RadioButton
+            android:id="@+id/rk2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="نعم" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/tsk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0/10"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/nextk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="التالي"
+        android:layout_gravity="center"/>
+    <Button
+        android:id="@+id/restarttestk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="اعادة الاختبار" />
+</LinearLayout>
