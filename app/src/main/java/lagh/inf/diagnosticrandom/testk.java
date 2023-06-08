@@ -36,16 +36,21 @@ public class testk extends AppCompatActivity {
         ArrayList<String> testqst = question.testqst(question.qstdeprissionkid,question.qstshizokid,question.qstautismkid,question.qststutteringkid);
         String value= testqst.get(j);
         String complet=(0+"/"+(12));
+        ArrayList<Boolean>  yes= new ArrayList<>();
+        //creating a table to save the questions that has been showed in the interface
+        ArrayList<String> testqsttable = new ArrayList<>();
+        testqsttable.add(value);
 
         /*interface compenent declaration */
         Button nextb=findViewById(R.id.nextk);
         Button restart=findViewById(R.id.restarttestk);
         RadioGroup radioGroup =findViewById(R.id.radioGroupk);
+        Button pvqst=findViewById(R.id.prvqstk);
         ts=(TextView) findViewById(R.id.tsk);
         ta=(TextView ) findViewById(R.id.tak);
         ts.setText(complet);
         ta.setText(value);
-        /*score of the qst*/
+        if(j<1){pvqst.setEnabled(false);}
 
 
 
@@ -61,18 +66,23 @@ public class testk extends AppCompatActivity {
                 }
                 else {
                     /*calculating the score of each illness*/
-                    if ((((RadioButton)findViewById(R.id.rk2)).isChecked())&&(question.qstdeprissionkid.contains(testqst.get(j))))
-                    {   scored++;
-                        System.out.println("score deprission is"+scored);}
-                    if ((((RadioButton)findViewById(R.id.rk2)).isChecked())&&(question.qstshizokid.contains(testqst.get(j))))
-                    {   scores++;
-                        System.out.println("score  shizo is"+scores);}
-                    if ((((RadioButton)findViewById(R.id.rk2)).isChecked())&&(question.qstautismkid.contains(testqst.get(j))))
-                    {   scorea++;
-                        System.out.println("score  autisme is"+scorea);}
-                    if ((((RadioButton)findViewById(R.id.rk2)).isChecked())&&(question.qststutteringkid.contains(testqst.get(j))))
-                    {   scorest++;
-                        System.out.println("score  stuttering is"+scorest);}
+                    pvqst.setEnabled(true);
+                    r++;
+
+                    if (((RadioButton)findViewById(R.id.rk2)).isChecked()){yes.add(true);
+                        if (question.qstdeprissionkid.contains(testqst.get(j)))
+                        {   scored++;
+                            System.out.println("score deprission is"+scored);}
+                        if (question.qstshizokid.contains(testqst.get(j)))
+                        {   scores++;
+                            System.out.println("score  shizo is"+scores);}
+                        if (question.qstautismkid.contains(testqst.get(j)))
+                        {   scorea++;
+                            System.out.println("score  autisme is"+scorea);}
+                        if (question.qststutteringkid.contains(testqst.get(j)))
+                        {   scorest++;
+                            System.out.println("score  stuttering is"+scorest);}}
+                    else {yes.add(false);}
                     r++;
 
                     //get the max score + the result
@@ -129,6 +139,7 @@ public class testk extends AppCompatActivity {
                     if(j<11)
                     {
                         j++;
+                        testqsttable.add(j,testqst.get(j));
                         ta.setText(testqst.get(j));
                         String complet=((j)+"/"+(12));
                         ts.setText(complet);
@@ -148,5 +159,34 @@ public class testk extends AppCompatActivity {
                 recreate();
             }
         });
+        pvqst.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(j<1){pvqst.setEnabled(false);}
+                else
+                {  j--;
+                    String complet=((j)+"/"+(12));
+                    ts.setText(complet);
+                    String q =testqsttable.get(j);
+                    if (yes.get(j)){
+                        if (question.qstdeprissionkid.contains(q))
+                        {   scored--;
+                            System.out.println("score deprission is"+scored);}
+                        if (question.qstshizokid.contains(q))
+                        {   scores--;
+                            System.out.println("score  shizo is"+scores);}
+                        if (question.qstautismkid.contains(q))
+                        {   scorea--;
+                            System.out.println("score  autisme is"+scorea);}
+                        if (question.qststutteringkid.contains(q))
+                        {   scorest--;
+                            System.out.println("score  stuttering is"+scorest);}}
+                    ta.setText(q);
+                    radioGroup.clearCheck();
+                    if(j==0){pvqst.setEnabled(false);}  }
+                r--;}
+
+        });}
     }
-}
+
