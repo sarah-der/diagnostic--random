@@ -45,20 +45,22 @@ public class question {
         int i=0 ;
         int r1,r2;
          /* fill the array with 8 questions randomly from th 2 principle mental illness */
+        Collections.shuffle(q1);
         while (i<3)
-        {   r2 = ThreadLocalRandom.current().nextInt(0,l2);
-            if (!(f1.contains(q2.get(r2)))) {
-            String y =q2.get(r2);
+        {
+            if (!(f1.contains(q1.get(i)))){
+                String y =q1.get(i);
             f1.add(y);
             i++;}
 
         }
         Collections.shuffle(f1);
         i=0;
+        Collections.shuffle(q2);
         while (i<3)
-        {    r1 = ThreadLocalRandom.current().nextInt(0,l1);
-            if (!(f1.contains(q1.get(r1)))){
-                String s =q1.get(r1);
+        {
+            if (!(f1.contains(q2.get(i)))){
+                String s =q2.get(i);
             f1.add(s);
             i++;}
 
@@ -66,20 +68,22 @@ public class question {
         Collections.shuffle(f1);
         i=0;
         /* fill the array with 4 questions randomly from th 2 secondry mental illness */
+        Collections.shuffle(q3);
         while (i<3)
-        {   r2 = ThreadLocalRandom.current().nextInt(0,l3);
-            if (!(f1.contains(q3.get(r2)))) {
-                String y =q3.get(r2);
+        {
+            if (!(f1.contains(q3.get(i)))){
+                String y =q3.get(i);
                 f1.add(y);
                 i++;}
 
         }
         i=0;
-        Collections.shuffle(f1);
+
+        Collections.shuffle(q4);
         while (i<3)
-        {    r1 = ThreadLocalRandom.current().nextInt(0,l4);
-            if (!(f1.contains(q4.get(r1)))){
-                String s =q4.get(r1);
+        {
+            if (!(f1.contains(q4.get(i)))){
+                String s =q4.get(i);
                 f1.add(s);
                 Collections.shuffle(f1);
                 i++;}
