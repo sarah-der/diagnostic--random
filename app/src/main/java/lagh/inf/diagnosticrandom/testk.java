@@ -33,10 +33,24 @@ public class testk extends AppCompatActivity {
         //get the age
         Intent intent = getIntent();
         int value1 = intent.getIntExtra("age",10);
+          /* kid questions */
+        String stutteringkid ="هل يواجه الطفل صعوبة في بدء الكلام أو التفوه بالكلمات بشكل سلس؟ هل يحدث تكرار أو تقطيع في الكلام لدى الطفل بشكل مستمر؟ هل تظهر عند الطفل جهود ملحوظة للتحكم في التكرار أو التقطيع في الكلام؟هل يعاني الطفل من التأتأة في أجزاء محددة من الكلام، مثل تكرار مقاطع أو حروف معينة؟ هل يعاني الطفل من توتر أو قلق؟";
+        String autismkid="هل يظهر لدى الطفل صعوبة في التواصل اللفظي وغير اللفظي؟ هل يعاني الطفل من صعوبة في التفاعل الاجتماعي وإقامة علاقات مع الآخرين؟ هل يتجاهل الطفل محاولات التواصل الاجتماعي من الآخرين؟ هل يظهر الطفل اهتمامًا غير طبيعي ومحدودًا بألعاب أو أجزاء من الأشياء بدلاً من اللعب الاجتماعي؟ هل يلجأ الطفل إلى الأنشطة المتكررة والروتينية بشكل ملحوظ ويشعر بالقلق من التغييرات في الروتين؟ هل يظهر الطفل اهتمامًا محدودًا بمشاركة الاهتمامات والمشاعر والإنجازات مع الآخرين؟ هل يصاحب الطفل حساسية غير عادية تجاه الأصوات أو الروائح أو الأطعمة أو اللمس؟ هل يتكرر لدى الطفل السلوك الحركي المتكرر، مثل ترتد الجسم أو تلوي اليدين؟ هل يعاني الطفل من تأخر في اكتساب المهارات اللغوية والاجتماعية المناسبة لعمره؟ هل يشعر الطفل بالقلق أو الضغط في مواقف اجتماعية ويظهر استجابات توترية غير عادية؟";
+        String schizokid="هل ينحرف الطفل في اهتمامه وتركيزه ويبدو غير متصل في حديثه؟ هل تشاهد سلوكيات غير اعتيادية لدى الطفل، مثل الانعزال أو التوتر الزائد؟ هل يلاحظ تغيرات في المزاج والنوم لدى الطفل؟ هل تلاحظ انخفاضًا في أداء الطفل العام وقدرته على التواصل الاجتماعي؟ هل يبدو الطفل غير مهتم بالأنشطة الاجتماعية المعتادة؟ هل تشعر بالقلق بشأن تغيرات في الشهية والوزن لدى الطفل؟ هل يظهر الطفل عدم الثقة في الآخرين والشك في نواياهم؟";
+        String deprissionkid="هل يظهر لدى الطفل انخفاضًا في المزاج المستمر والاكتئاب؟ هل يفتقد الطفل الاهتمام والاستمتاع بالأنشطة السابقة؟ هل يشعر الطفل بالتعب الزائد وفقدان الطاقة؟هل يظهر الطفل قلقًا واستياءًا غير مبرر؟ هل يعاني الطفل من الشعور بالذنب وعدم القدرة على التركيز؟ هل يظهر تغييرات في سلوك الطفل، مثل الانعزال والانسحاب من الأصدقاء والأنشطة الاجتماعية؟ هل يعاني الطفل من آلام جسدية غير مبررة؟ هل يعاني الطفل من أفكار الانتحار أو الرغبة في الموت؟";
+
+
+        /* fill kid questions in arrays*/
+        ArrayList<String> qstdeprissionkid=  question.remplir(deprissionkid);
+        ArrayList<String>  qstshizokid=  question.remplir(schizokid);
+        ArrayList<String> qstautismkid=  question.remplir(autismkid);
+        ArrayList<String> qststutteringkid= question.remplir(stutteringkid);
+
+
 
         /*choose one randome qusetion from the test questions to show it at first */
 
-        ArrayList<String> testqst = question.testqst(question.qstdeprissionkid,question.qstshizokid,question.qstautismkid,question.qststutteringkid);
+         ArrayList<String> testqst = question.testqst(qstdeprissionkid,qstshizokid,qstautismkid,qststutteringkid);
         String value= testqst.get(j);
         String complet=(1+"/"+(12));
         ArrayList<Boolean>  yes= new ArrayList<>();
@@ -74,16 +88,16 @@ public class testk extends AppCompatActivity {
                     r++;
                     /*calculating the score of each illness*/
                     if (((RadioButton)findViewById(R.id.rk2)).isChecked()){yes.add(true);
-                        if (question.qstdeprissionkid.contains(testqst.get(j)))
+                        if (qstdeprissionkid.contains(testqst.get(j)))
                         {   scored++;
                             System.out.println("score deprission is"+scored);}
-                        if (question.qstshizokid.contains(testqst.get(j)))
+                        if (qstshizokid.contains(testqst.get(j)))
                         {   scores++;
                             System.out.println("score  shizo is"+scores);}
-                        if (question.qstautismkid.contains(testqst.get(j)))
+                        if ( qstautismkid.contains(testqst.get(j)))
                         {   scorea++;
                             System.out.println("score  autisme is"+scorea);}
-                        if (question.qststutteringkid.contains(testqst.get(j)))
+                        if (qststutteringkid.contains(testqst.get(j)))
                         {   scorest++;
                             System.out.println("score  stuttering is"+scorest);}}
                     else {yes.add(false);}
@@ -195,16 +209,16 @@ public class testk extends AppCompatActivity {
                     ts.setText(complet);
                     String q =testqsttable.get(j);
                     if (yes.get(j)){
-                        if (question.qstdeprissionkid.contains(q))
+                        if ( qstdeprissionkid.contains(q))
                         {   scored--;
                             System.out.println("score deprission is"+scored);}
-                        if (question.qstshizokid.contains(q))
+                        if ( qstshizokid.contains(q))
                         {   scores--;
                             System.out.println("score  shizo is"+scores);}
-                        if (question.qstautismkid.contains(q))
+                        if (qstautismkid.contains(q))
                         {   scorea--;
                             System.out.println("score  autisme is"+scorea);}
-                        if (question.qststutteringkid.contains(q))
+                        if (qststutteringkid.contains(q))
                         {   scorest--;
                             System.out.println("score  stuttering is"+scorest);}}
                     ta.setText(q);

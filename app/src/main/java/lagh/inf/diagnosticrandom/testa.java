@@ -16,6 +16,18 @@ import java.util.Collections;
 
 
 public class testa extends AppCompatActivity {
+    String stuttering ="هل تشعر بالتوتر أو القلق قبل الكلام؟ هل تشعر بتوتر عضلي في منطقة الوجه أو الفك أثناء محاولة التحدث؟هل تعاني من تكرار الكلمات أو الأصوات الصوتية؟هل تجد صعوبة في الكلام عندما تكون في حالة من الانفعال أو الحماسة؟هل تشعر بأن الكلام يتوقف أو يعلق في الحلق أثناء المحاولة للتحدث؟هل تشعر بتوتر عضلي في منطقة الوجه أو الفك أثناء محاولة التحدث؟";
+    String autism="هل تلاحظ صعوبة في التفاعل الاجتماعي والتواصل العاطفي مع الآخرين؟هل تجد صعوبة في فهم وتفسير العبارات الغير مباشرة؟هل تشعر بالرغبة في الالتفاف على المواعيد المحددة؟هل تشعر بالحساسية الزائدة تجاه الأصوات أو الروائح أو الأضواء أو الأطعمة؟هل لديك اهتمامات غير عادية ومحدودة في مجالات معينة، وتفضل التركيز على هذه الاهتمامات؟ هل تلاحظ صعوبة في فهم واستيعاب مشاعر الآخرين وتفسيرها؟هل تجد صعوبة في إقامة  صداقات وعلاقات الاجتماعية؟هل تظهر لديك حركات متكررة أو إيقاعات غير عادية في الجسم؟هل تعاني من تأخر في اكتساب المهارات اللغوية والاجتماعية المناسبة لعمرك؟";
+    String schizo="هل تعاني من سماع أصوات غير موجودة أو رؤية أشخاص أو أشياء غير حاضرة؟هل تعاني من الاعتقادات الغير منطقية   ؟هل تشعر بصعوبة في التركيز أو الانتباه لفترات طويلة؟ هل تظهر لديك تغيرات في المشاعر والعواطف، مثل انخفاض في الشعور بالمتعة أو  شعور زائد بالتوتر أو القلق؟هل تشعر بالشك والاعتقاد بأن الآخرين يؤامرون عليك أو يخططون للضرر بك ؟ هل تعاني من انحراف السلوك أو السلوك الغير منتظم أو العنف غير المبرر؟";
+    String deprission="هل تشعر بالحزن الشديد لمعظم أيام الأسبوع؟هل فقدت الاهتمام  في الأنشطة التي كنت تستمتع بها في الماضي؟  هل لديك انخفاض في مستوى الطاقة ؟هل تعاني من صعوبة في النوم، مثل الأرق أو النوم الزائد؟هل لديك تغيرات في الشهية أو الوزن؟ هل تشعر بالقلق أو الاستياء بشكل متكرر؟هل تشعر بالشعور بالذنب بشكل زائد؟هل لديك أفكار متكررة عن الموت أو الانتحار؟هل تشعر بالانعزالية ؟";
+    /* adult questions */
+
+
+    ArrayList<String> qstdeprission=  question.remplir(deprission);
+    ArrayList<String>  qstshizo=  question.remplir(schizo);
+    ArrayList<String> qstautism=  question.remplir(autism);
+    ArrayList<String> qststuttering=  question.remplir(stuttering);
+    /* fill kid questions in arrays*/
 
 
     TextView ta,ts ;
@@ -38,7 +50,7 @@ public class testa extends AppCompatActivity {
 
         /*choose one randome qusetion from the test questions to show it at first */
 
-        ArrayList<String> testqst = question.testqst(question.qstdeprission,question.qstshizo,question.qstautism,question.qststuttering);
+        ArrayList<String> testqst = question.testqst( qstdeprission, qstshizo,qstautism,qststuttering);
         String value= testqst.get(j);
         ArrayList<Boolean>  yes= new ArrayList<>();
         String complet=(1+"/"+(12));
@@ -76,16 +88,16 @@ public class testa extends AppCompatActivity {
                     /*calculating the score of each illness*/
                     if (((RadioButton)findViewById(R.id.rd2)).isChecked())
                     {yes.add(true);
-                    if (question.qstdeprission.contains(testqst.get(j)))
+                    if ( qstdeprission.contains(testqst.get(j)))
                     {   scored++;
                         System.out.println("score deprission is"+scored);}
-                    if (question.qstshizo.contains(testqst.get(j)))
+                    if ( qstshizo.contains(testqst.get(j)))
                     {   scores++;
                         System.out.println("score  shizo is"+scores);}
-                    if (question.qstautism.contains(testqst.get(j)))
+                    if ( qstautism.contains(testqst.get(j)))
                     {   scorea++;
                         System.out.println("score  autisme is"+scorea);}
-                    if (question.qststuttering.contains(testqst.get(j)))
+                    if ( qststuttering.contains(testqst.get(j)))
                     {   scorest++;
                         System.out.println("score  stuttering is"+scorest);}
                     }
@@ -199,16 +211,16 @@ public class testa extends AppCompatActivity {
                     ts.setText(complet);
                     String q =testqsttable.get(j);
                     if (yes.get(j)){
-                    if (question.qstdeprission.contains(q))
+                    if ( qstdeprission.contains(q))
                     {   scored--;
                         System.out.println("score deprission is"+scored);}
-                    if (question.qstshizo.contains(q))
+                    if ( qstshizo.contains(q))
                     {   scores--;
                         System.out.println("score  shizo is"+scores);}
-                    if (question.qstautism.contains(q))
+                    if ( qstautism.contains(q))
                     {   scorea--;
                         System.out.println("score  autisme is"+scorea);}
-                    if (question.qststuttering.contains(q))
+                    if ( qststuttering.contains(q))
                     {   scorest--;
                         System.out.println("score  stuttering is"+scorest);}}
                     ta.setText(q);
