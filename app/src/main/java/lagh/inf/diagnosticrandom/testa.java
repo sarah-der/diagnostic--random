@@ -31,13 +31,17 @@ public class testa extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testa);
+        //get the age
+        Intent intent = getIntent();
+        int value1 = intent.getIntExtra("age",18);
+
 
         /*choose one randome qusetion from the test questions to show it at first */
 
         ArrayList<String> testqst = question.testqst(question.qstdeprission,question.qstshizo,question.qstautism,question.qststuttering);
         String value= testqst.get(j);
         ArrayList<Boolean>  yes= new ArrayList<>();
-        String complet=(0+"/"+(12));
+        String complet=(1+"/"+(12));
         //creating a table to save the questions that has been showed in the interface
         ArrayList<String> testqsttable = new ArrayList<>();
         testqsttable.add(value);
@@ -50,6 +54,7 @@ public class testa extends AppCompatActivity {
         ta=(TextView ) findViewById(R.id.tad);
         ts.setText(complet);
         ta.setText(value);
+        ArrayList <String>  illness =  new ArrayList<>() ;
         /*score of the qst*/
         if(j<1){pvqst.setEnabled(false);}
 
@@ -68,8 +73,9 @@ public class testa extends AppCompatActivity {
 
                    pvqst.setEnabled(true);
                     r++;
-
-                    if (((RadioButton)findViewById(R.id.rd2)).isChecked()){yes.add(true);
+                    /*calculating the score of each illness*/
+                    if (((RadioButton)findViewById(R.id.rd2)).isChecked())
+                    {yes.add(true);
                     if (question.qstdeprission.contains(testqst.get(j)))
                     {   scored++;
                         System.out.println("score deprission is"+scored);}
@@ -81,66 +87,77 @@ public class testa extends AppCompatActivity {
                         System.out.println("score  autisme is"+scorea);}
                     if (question.qststuttering.contains(testqst.get(j)))
                     {   scorest++;
-                        System.out.println("score  stuttering is"+scorest);}}
+                        System.out.println("score  stuttering is"+scorest);}
+                    }
                     else {yes.add(false);}
 
 
-                    /*calculating the score of each illness*/
-                    if (r==12){
 
+                    //get the max score + the result if  all questions are answered
+                    if (r==12)
+                    {
                         ArrayList<Integer> scoress= new ArrayList<>();
                         scoress.add(scored);
                         scoress.add(scorea);
                         scoress.add(scores);
                         scoress.add(scorest);
+                        int maxcount=0;
                         //get the max score
-                        int maxValue =  Collections.max(scoress);
-                        if (((scored == scorea )&&( maxValue==scorea))||(( scored == scores)&&( maxValue==scores)) ||(( scored == scorest)&&( maxValue==scores))  ||
-                                (( scorea == scores)&&( maxValue==scores))  || ((scorea == scorest)&&( maxValue==scores))  ||
-                                ((scores == scorest)&&( maxValue==scores)) )  {
-                            // If two or more scores have the same value, and the maximum value is equal to that shared value
+                        int maxValue =   Collections.max(scoress);
+                        //count the number of equal scores with the max value
+                        for (int score : scoress) {
+                            if (score == maxValue) {
+                                maxcount++;
+                            }
+                        }
+
+                        if (maxcount >2)
+                        {   // If more than two scores are equal to the max value
                             // Restart the test
-                             Toast.makeText(getApplicationContext(), "اعد الاختبار", Toast.LENGTH_SHORT).show();
-                                 recreate();}
+                            Toast.makeText(getApplicationContext(), " اعد الاختبار ", Toast.LENGTH_SHORT).show();
+                            recreate();
+                        }
+                        //else show the result
+                        else {
 
+                            String value ;
+                            Intent resulta = new Intent(getApplicationContext(),result.class);
+                            resulta.putExtra("qsttable",testqsttable);
+                            resulta.putExtra("answers",yes);
+                            if (maxValue == scored) {
+                                System.out.println("deprission");
+                                illness.add("اكتئاب");
+                                resulta.putExtra("specialist1","مختص في الأمراض العقلية");
+                                resulta.putExtra("specialist3","مختص نفساني ");
 
-                    else {
-                            // Show the result based on the max value
-                                 if (maxValue == scored) {
-                                     // Handle "depression" case
-                                     // Start the result activity with appropriate extras
-                                     System.out.println("deprission");
-                                     Intent resulta = new Intent(getApplicationContext(),result.class);
-                                     resulta.putExtra("specialist1","مختص في الأمراض العقلية");
-                                     resulta.putExtra("specialist2","مختص نفساني ");
-                                     startActivity(resulta);
-                                 } else
-                                 {if (maxValue == scorea) {
-                                     // Handle "autism" case
-                                     // Start the result activity with appropriate extras
-                                     System.out.println("autism");
-                                     Intent resulta = new Intent(getApplicationContext(),result.class);
-                                     resulta.putExtra("specialist1","مختص في الأمراض العقلية");
-                                     resulta.putExtra("specialist2", "مختص أرطوفوني");
-                                     resulta.putExtra("specialist3", "مختص نفساني ");
-                                     startActivity(resulta);
-                                 } else{
-                                     if (maxValue == scores) {
-                                         // Handle "shizo" case
-                                         // Start the result activity with appropriate extras
-                                         System.out.println("shizo");
-                                         Intent resulta = new Intent(getApplicationContext(),result.class);
-                                         resulta.putExtra("specialist1","مختص في الأمراض العقلية");
-                                         resulta.putExtra("specialist2"," مختص نفساني  ");
-                                         startActivity(resulta);}
-                                     else {
-                                         // Handle "stutring" case
-                                         // Start the result activity with appropriate extras
-                                         System.out.println("stutring");
-                                         Intent resulta = new Intent(getApplicationContext(),result.class);
-                                         resulta.putExtra("specialist1","مختص أرطفوني");
-                                         startActivity(resulta);}
-                                 }}}}
+                            }
+                            if (maxValue == scorea) {
+                                System.out.println("autism");
+                                illness.add("توحد");
+                                resulta.putExtra("specialist1","مختص في الأمراض العقلية");
+                                resulta.putExtra("specialist2", "مختص أرطوفوني");
+                                resulta.putExtra("specialist3", "مختص نفساني ");
+
+                            }
+                            if (maxValue == scores) {
+                                System.out.println("shizo");
+                                illness.add("فصام");
+                                resulta.putExtra("specialist1","مختص في الأمراض العقلية");
+                                resulta.putExtra("specialist3"," مختص نفساني  ");
+                                 }
+                            if (maxValue == scorest){
+                                System.out.println("stutring");
+                                illness.add("تأتأة");
+                                resulta.putExtra("specialist2","مختص أرطفوني");
+                                }
+                            resulta.putExtra("age",value1);
+                            resulta.putExtra("illness",illness);
+
+                            startActivity(resulta);
+
+                        }
+                    }
+
 
 
                     if(j<11)
@@ -148,7 +165,7 @@ public class testa extends AppCompatActivity {
                         j++;
                         testqsttable.add(j,testqst.get(j));
                         ta.setText(testqst.get(j));
-                        String complet=((j)+"/"+(12));
+                        String complet=((j+1)+"/"+(12));
                         ts.setText(complet);
                         }
 

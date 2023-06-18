@@ -30,13 +30,17 @@ public class testk extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_testk);
+        //get the age
+        Intent intent = getIntent();
+        int value1 = intent.getIntExtra("age",10);
 
         /*choose one randome qusetion from the test questions to show it at first */
 
         ArrayList<String> testqst = question.testqst(question.qstdeprissionkid,question.qstshizokid,question.qstautismkid,question.qststutteringkid);
         String value= testqst.get(j);
-        String complet=(0+"/"+(12));
+        String complet=(1+"/"+(12));
         ArrayList<Boolean>  yes= new ArrayList<>();
+
         //creating a table to save the questions that has been showed in the interface
         ArrayList<String> testqsttable = new ArrayList<>();
         testqsttable.add(value);
@@ -52,7 +56,7 @@ public class testk extends AppCompatActivity {
         ta.setText(value);
         if(j<1){pvqst.setEnabled(false);}
 
-
+        ArrayList <String>  illness =new ArrayList<>();
 
         /*button function */
         nextb.setOnClickListener(new View.OnClickListener() {
@@ -65,10 +69,10 @@ public class testk extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "اختر اجابة", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    /*calculating the score of each illness*/
+
                     pvqst.setEnabled(true);
                     r++;
-
+                    /*calculating the score of each illness*/
                     if (((RadioButton)findViewById(R.id.rk2)).isChecked()){yes.add(true);
                         if (question.qstdeprissionkid.contains(testqst.get(j)))
                         {   scored++;
@@ -83,57 +87,73 @@ public class testk extends AppCompatActivity {
                         {   scorest++;
                             System.out.println("score  stuttering is"+scorest);}}
                     else {yes.add(false);}
-                    r++;
 
-                    //get the max score + the result
-                    if (r==12){
 
+
+                    //get the max score + the result if  all questions are answered
+                    if (r==12)
+                    {
                         ArrayList<Integer> scoress= new ArrayList<>();
                         scoress.add(scored);
                         scoress.add(scorea);
                         scoress.add(scores);
                         scoress.add(scorest);
-
-                         //get the max score
+                        int maxcount=0;
+                        //get the max score
                         int maxValue =   Collections.max(scoress);
-                        if (((scored == scorea )&&( maxValue==scorea))||(( scored == scores)&&( maxValue==scores)) ||(( scored == scorest)&&( maxValue==scores))  ||
-                                (( scorea == scores)&&( maxValue==scores))  || ((scorea == scorest)&&( maxValue==scores))  ||
-                                ((scores == scorest)&&( maxValue==scores)) )  {
-                            // If two or more scores have the same value, and the maximum value is equal to that shared value
-                            // Restart the test
-                            Toast.makeText(getApplicationContext(), "اعد الاختبار", Toast.LENGTH_SHORT).show();
-                            recreate();}
+                        //count the number of equal scores with the max value
+                        for (int score : scoress) {
+                            if (score == maxValue) {
+                                maxcount++;
+                            }
+                        }
 
-
+                            if (maxcount >2)
+                            {   // If more than two scores are equal to the max value
+                                // Restart the test
+                                Toast.makeText(getApplicationContext(), " اعد الاختبار ", Toast.LENGTH_SHORT).show();
+                                recreate();
+                            }
+                            //else show the result
                             else {
-                                //else show the result
+
+
+                                Intent resulta = new Intent(getApplicationContext(),result.class);
+                                resulta.putExtra("qsttable",testqsttable);
+                                resulta.putExtra("answers",yes);
                                 if (maxValue == scored) {
                                     System.out.println("deprission");
-                                    Intent resulta = new Intent(getApplicationContext(),result.class);
+                                    illness.add("اكتئاب");
                                     resulta.putExtra("specialist1","مختص في الأمراض العقلية");
-                                    resulta.putExtra("specialist2","مختص نفساني ");
-                                    startActivity(resulta);
-                                } else
-                                {if (maxValue == scorea) {
+                                    resulta.putExtra("specialist3","مختص نفساني ");
+
+                                }
+                                if (maxValue == scorea) {
                                     System.out.println("autism");
-                                    Intent resulta = new Intent(getApplicationContext(),result.class);
+                                    illness.add("توحد");
                                     resulta.putExtra("specialist1","مختص في الأمراض العقلية");
                                     resulta.putExtra("specialist2", "مختص أرطوفوني");
                                     resulta.putExtra("specialist3", "مختص نفساني ");
-                                    startActivity(resulta);
-                                } else{
-                                    if (maxValue == scores) {
-                                        System.out.println("shizo");
-                                        Intent resulta = new Intent(getApplicationContext(),result.class);
-                                        resulta.putExtra("specialist1","مختص في الأمراض العقلية");
-                                        resulta.putExtra("specialist2"," مختص نفساني  ");
-                                        startActivity(resulta);}
-                                    else {
-                                        System.out.println("stutring");
-                                        Intent resulta = new Intent(getApplicationContext(),result.class);
-                                        resulta.putExtra("specialist1","مختص أرطفوني");
-                                        startActivity(resulta);}
-                                }}}}
+
+                                }
+                                if (maxValue == scores) {
+                                    System.out.println("shizo");
+                                    illness.add("فصام");
+                                    resulta.putExtra("specialist1","مختص في الأمراض العقلية");
+                                    resulta.putExtra("specialist3"," مختص نفساني  ");
+                                }
+                                if (maxValue == scorest){
+                                    System.out.println("stutring");
+                                    illness.add("تأتأة");
+                                    resulta.putExtra("specialist2","مختص أرطفوني");
+                                }
+                                resulta.putExtra("age",value1);
+
+                                resulta.putExtra("illness",illness);
+                                startActivity(resulta);
+
+                            }
+                    }
 
 
                     if(j<11)
@@ -141,7 +161,7 @@ public class testk extends AppCompatActivity {
                         j++;
                         testqsttable.add(j,testqst.get(j));
                         ta.setText(testqst.get(j));
-                        String complet=((j)+"/"+(12));
+                        String complet=((j+1)+"/"+(12));
                         ts.setText(complet);
                     }
 
@@ -156,8 +176,13 @@ public class testk extends AppCompatActivity {
         restart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                recreate();
+                if (j > 0) {
+
+                    recreate(); }
+                else{Toast.makeText(getApplicationContext(), "أجب عن سؤال واحد على الأقل", Toast.LENGTH_SHORT).show();}
+
             }
+
         });
         pvqst.setOnClickListener(new View.OnClickListener() {
             @Override

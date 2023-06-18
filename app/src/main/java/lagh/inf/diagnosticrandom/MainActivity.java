@@ -19,6 +19,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         EditText et= findViewById(R.id.age);
         Button b =findViewById(R.id.b1t);
+
+
+
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -35,9 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
                         if(a>15){
                             Intent i = new Intent(getApplicationContext(), testa.class);
+                            i.putExtra("age",a);
+
                             startActivity(i);
+
                         }
                         else {Intent i = new Intent(getApplicationContext(), testk.class);
+                            i.putExtra("age",a);
+
                             startActivity(i);}
                     }
                 }
